@@ -1,0 +1,84 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - build/**
+    - .dart_tool/**
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+
+linter:
+  rules:
+
+    # ==========================
+    # Code Style
+    # ==========================
+    always_declare_return_types: true
+    always_put_required_named_parameters_first: true
+    always_use_package_imports: true
+    annotate_overrides: true
+    avoid_dynamic_calls: true
+    avoid_empty_else: true
+    avoid_print: true
+    avoid_redundant_argument_values: true
+    avoid_returning_null_for_void: true
+    avoid_slow_async_io: true
+    avoid_types_as_parameter_names: true
+
+    # ==========================
+    # Constructors
+    # ==========================
+    prefer_const_constructors: true
+    prefer_const_constructors_in_immutables: true
+    prefer_const_declarations: true
+    use_super_parameters: true
+
+    # ==========================
+    # Collections
+    # ==========================
+    prefer_collection_literals: true
+    prefer_contains: true
+    prefer_for_elements_to_map_fromIterable: true
+    prefer_if_elements_to_conditional_expressions: true
+    prefer_inlined_adds: true
+    prefer_spread_collections: true
+
+    # ==========================
+    # Strings
+    # ==========================
+    prefer_single_quotes: true
+    unnecessary_string_escapes: true
+
+    # ==========================
+    # Null Safety
+    # ==========================
+    unnecessary_nullable_for_final_variable_declarations: true
+
+    # ==========================
+    # Flutter
+    # ==========================
+    use_key_in_widget_constructors: true
+    sized_box_for_whitespace: true
+    use_colored_box: true
+
+    # ==========================
+    # Performance
+    # ==========================
+    unnecessary_lambdas: true
+    unnecessary_parenthesis: true
+
+    # ==========================
+    # Imports
+    # ==========================
+    directives_ordering: true
+    sort_pub_dependencies: false
+
+    # ==========================
+    # Documentation
+    # ==========================
+    public_member_api_docs: false
