@@ -198,4 +198,20 @@ class AuthRepository implements AuthRepositoryInterface {
     await _supabase.auth.refreshSession();
     return _supabase.auth.currentUser;
   }
+
+  /// ==========================
+  /// Reset Password
+  /// ==========================
+  @override
+  Future<void> resetPassword({
+    required String email,
+  }) async {
+    try {
+      await _supabase.auth.resetPasswordForEmail(email);
+    } on AuthException catch (e) {
+      throw Exception(e.message);
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
 }

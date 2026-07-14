@@ -36,8 +36,8 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
 
     try {
       await ref.read(authControllerProvider.notifier).resetPassword(
-        _emailController.text.trim(),
-      );
+            email: _emailController.text.trim(),
+          );
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

@@ -34,4 +34,8 @@ abstract class AuthRepositoryInterface {
   Future<Map<String, dynamic>?> fetchWallet();
 
   Future<User?> refreshUser();
+
+  Future<void> resetPassword({
+    required String email,
+  });
 }
