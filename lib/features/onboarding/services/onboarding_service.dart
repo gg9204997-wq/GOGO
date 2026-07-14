@@ -1,6 +1,6 @@
 import 'package:joojo_chat/core/utils/app_result.dart';
-import 'package:joojo_chat/features/onboarding/models/onboarding_step.dart';
-import 'package:joojo_chat/features/onboarding/repositories/onboarding_repository.dart';
+import 'package:joojo_chat/features/onboarding/data/repositories/onboarding_repository.dart';
+import 'package:joojo_chat/features/onboarding/domain/entities/onboarding_step_entity.dart';
 
 final class OnboardingService {
   OnboardingService({
@@ -9,7 +9,7 @@ final class OnboardingService {
 
   final OnboardingRepository _repository;
 
-  List<OnboardingStep> get steps => OnboardingStep.defaultSteps;
+  List<OnboardingStepEntity> get steps => OnboardingStepEntity.defaultSteps;
 
   Future<bool> hasCompletedOnboarding() async {
     return await _repository.hasCompletedOnboarding();

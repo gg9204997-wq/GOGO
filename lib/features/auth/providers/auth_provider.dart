@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../controllers/auth_controller.dart';
-import '../models/user_model.dart';
+import 'package:joojo_chat/features/auth/models/user_model.dart';
+import 'package:joojo_chat/features/auth/presentation/controllers/auth_controller.dart';
 
 /// الحالة الحالية للمستخدم
 final currentUserProvider = Provider<UserModel?>(
@@ -9,6 +9,11 @@ final currentUserProvider = Provider<UserModel?>(
     return ref.watch(authControllerProvider).valueOrNull;
   },
 );
+
+/// Provider for auth controller
+final authProvider = Provider<AuthController>((ref) {
+  return ref.read(authControllerProvider.notifier);
+});
 
 /// هل المستخدم مسجل دخول؟
 final isLoggedInProvider = Provider<bool>(

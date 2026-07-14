@@ -1,8 +1,7 @@
 import 'dart:io';
 
+import 'package:joojo_chat/core/storage/storage_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../../../core/storage/storage_service.dart';
 
 class ProfileRepository {
   ProfileRepository({
@@ -15,11 +14,7 @@ class ProfileRepository {
 
   Future<void> completeProfile({
     required String userId,
-    File? avatarFile,
-    required String country,
-    required DateTime birthday,
-    required String gender,
-    required String bio,
+    required String country, required DateTime birthday, required String gender, required String bio, File? avatarFile,
   }) async {
     String? avatarUrl;
 
@@ -33,7 +28,7 @@ class ProfileRepository {
     await _client
         .from('profiles')
         .update({
-          if (avatarUrl != null) 'avatar': avatarUrl,
+          'avatar': ?avatarUrl,
 
           'country': country,
           'birthday': birthday.toIso8601String(),
