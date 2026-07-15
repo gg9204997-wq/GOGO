@@ -1,54 +1,28 @@
 import 'package:flutter/widgets.dart';
 
-abstract final class AppSpacing {
+class AppSpacing {
   const AppSpacing._();
 
-  static const double none = 0;
-  static const double xxs = 2;
-  static const double xs = 4;
-  static const double sm = 8;
-  static const double md = 12;
-  static const double lg = 16;
-  static const double xl = 20;
-  static const double xxl = 24;
-  static const double xxxl = 32;
-  static const double huge = 40;
-  static const double massive = 56;
+  static const EdgeInsets screen =
+      EdgeInsets.symmetric(horizontal: 20, vertical: 20);
 
-  static const EdgeInsets zero = EdgeInsets.zero;
-  static const EdgeInsets allXs = EdgeInsets.all(xs);
-  static const EdgeInsets allSm = EdgeInsets.all(sm);
-  static const EdgeInsets allMd = EdgeInsets.all(md);
-  static const EdgeInsets allLg = EdgeInsets.all(lg);
-  static const EdgeInsets allXl = EdgeInsets.all(xl);
-  static const EdgeInsets allXxl = EdgeInsets.all(xxl);
+  static const EdgeInsets card =
+      EdgeInsets.all(16);
 
-  static const EdgeInsets page = EdgeInsets.symmetric(
-    horizontal: lg,
-    vertical: xxl,
-  );
+  static const EdgeInsets button =
+      EdgeInsets.symmetric(horizontal: 18);
 
-  static const EdgeInsets section = EdgeInsets.symmetric(
-    horizontal: lg,
-    vertical: lg,
-  );
+  static const SizedBox h4 = SizedBox(height: 4);
+  static const SizedBox h8 = SizedBox(height: 8);
+  static const SizedBox h12 = SizedBox(height: 12);
+  static const SizedBox h16 = SizedBox(height: 16);
+  static const SizedBox h20 = SizedBox(height: 20);
+  static const SizedBox h24 = SizedBox(height: 24);
+  static const SizedBox h32 = SizedBox(height: 32);
 
-  static const EdgeInsets card = EdgeInsets.all(lg);
-  static const EdgeInsets compactCard = EdgeInsets.all(md);
-
-  static const EdgeInsets input = EdgeInsets.symmetric(
-    horizontal: lg,
-    vertical: lg,
-  );
-
-  static const EdgeInsets button = EdgeInsets.symmetric(
-    horizontal: xl,
-    vertical: lg,
-  );
-
-  static const EdgeInsets iconButton = EdgeInsets.all(sm);
-  static const EdgeInsets listItem = EdgeInsets.symmetric(
-    horizontal: lg,
-    vertical: md,
-  );
+  static const SizedBox w4 = SizedBox(width: 4);
+  static const SizedBox w8 = SizedBox(width: 8);
+  static const SizedBox w12 = SizedBox(width: 12);
+  static const SizedBox w16 = SizedBox(width: 16);
+  static const SizedBox w20 = SizedBox(width: 20);
 }
