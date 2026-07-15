@@ -3,22 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:joojo_chat/core/constants/app_colors.dart';
 
 class AppButton extends StatelessWidget {
-  const AppButton({
-    super.key,
-    required this.text,
-    required this.onPressed,
-    this.icon,
-    this.width = double.infinity,
-    this.height = 56,
-    this.loading = false,
-    this.enabled = true,
-    this.backgroundColor,
-    this.foregroundColor,
-    this.borderRadius = 16,
-  });
-
   final String text;
-  final VoidCallback? onPressed;
+  final VoidCallback onPressed;
+
   final IconData? icon;
 
   final double width;
@@ -32,9 +19,23 @@ class AppButton extends StatelessWidget {
 
   final double borderRadius;
 
+  const AppButton({
+  required this.text,
+  required this.onPressed,
+  super.key,
+  this.icon,
+  this.width = double.infinity,
+  this.height = 56,
+  this.loading = false,
+  this.enabled = true,
+  this.backgroundColor,
+  this.foregroundColor,
+  this.borderRadius = 16,
+});
+
   @override
   Widget build(BuildContext context) {
-    final bool canPress = enabled && !loading;
+    final canPress = enabled && !loading;
 
     return SizedBox(
       width: width,
@@ -61,6 +62,7 @@ class AppButton extends StatelessWidget {
               )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   if (icon != null) ...[
                     Icon(icon, size: 20),
