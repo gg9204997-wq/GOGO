@@ -43,7 +43,7 @@ class RoomBody extends StatelessWidget {
 
     /// الحصول على أعضاء الغرفة من الـ Provider
     final members =
-        context.watch<RoomMemberProvider>().members;
+        context.watch<RoomMemberProvider>().onlineMembers;
 
     /// ═══ حالة التحميل ═══
     if (isLoading && currentRoom == null) {
@@ -90,13 +90,15 @@ class RoomBody extends StatelessWidget {
     }
 
     /// تحويل قائمة الأعضاء إلى MemberAvatarData للعرض في الـ Header
+    /// يتم استخراج الصورة من userId (placeholder) بدلاً من profileImage
     final memberAvatars = members
+        .take(5) // عرض أول 5 أعضاء فقط في الـ Header
         .map(
           (member) => MemberAvatarData(
-            imageUrl: member.profileImage,
+            imageUrl: null, // RoomMemberModel لا يحتوي على صورة الملف الشخصي
             isOnline: member.isOnline,
-            isVip: member.isVip,
-            isHost: member.isHost,
+            isVip: member.role == 'vip', // التحقق من الـ Role للـ VIP
+            isHost: member.role == 'owner', // التحقق من الـ Role للمالك
           ),
         )
         .toList();
