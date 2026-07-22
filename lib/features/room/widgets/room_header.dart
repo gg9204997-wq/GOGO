@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import 'package:joojo_chat/features/room/models/room_model.dart';
-import 'package:joojo_chat/features/room/providers/room_provider.dart';
+import '../models/room_model.dart';
 
 import 'header/actions/room_actions.dart';
+
 import 'header/avatar/room_avatar.dart';
+
 import 'header/background/room_header_background.dart';
 import 'header/background/room_header_border.dart';
 import 'header/background/room_header_glow.dart';
@@ -13,6 +13,7 @@ import 'header/background/room_header_gradient.dart';
 import 'header/background/room_header_light.dart';
 import 'header/background/room_header_particles.dart';
 import 'header/background/room_header_shine.dart';
+
 import 'header/info/room_country.dart';
 import 'header/info/room_heat.dart';
 import 'header/info/room_progress.dart';
@@ -20,18 +21,19 @@ import 'header/info/room_roomid.dart';
 import 'header/info/room_statistics.dart';
 import 'header/info/room_tags.dart';
 import 'header/info/room_title.dart';
+
 import 'header/members/member_avatar.dart';
 import 'header/members/room_members.dart';
 
 /// ═══════════════════════════════════════════════════════════════
-/// رأس الغرفة الصوتية - يعرض جميع معلومات الغرفة والأعضاء والإحصائيات
+/// رأس الغرفة - يعرض جميع معلومات الغرفة والإحصائيات والأعضاء
 /// ═══════════════════════════════════════════════════════════════
 
 class RoomHeader extends StatelessWidget {
   /// إنشاء رأس الغرفة
   /// 
-  /// [room] - بيانات الغرفة الكاملة
-  /// [members] - قائمة صور الأعضاء المراد عرضها
+  /// [room] - بيانات الغرفة الكاملة (RoomModel)
+  /// [members] - قائمة صور الأعضاء المعروضة
   /// [onShare] - callback عند الضغط على زر المشاركة
   /// [onMinimize] - callback عند الضغط على زر التصغير
   /// [onExit] - callback عند الضغط على زر الخروج
@@ -44,32 +46,29 @@ class RoomHeader extends StatelessWidget {
     required this.onExit,
   });
 
-  /// بيانات الغرفة الكاملة
+  /// بيانات الغرفة الكاملة من RoomModel
   final RoomModel room;
 
-  /// قائمة بيانات صور الأعضاء المعروضة
+  /// قائمة بيانات صور الأعضاء المعروضة في الرأس
   final List<MemberAvatarData> members;
 
-  /// callback عند الضغط على المشاركة
+  /// دالة المشاركة
   final VoidCallback onShare;
 
-  /// callback عند الضغط على التصغير
+  /// دالة التصغير
   final VoidCallback onMinimize;
 
-  /// callback عند الضغط على الخروج
+  /// دالة الخروج
   final VoidCallback onExit;
 
   @override
   Widget build(BuildContext context) {
-    // الحصول على بيانات الغرفة من الـ Provider
-    final currentRoom = context.watch<RoomProvider>().currentRoom ?? room;
-
     return SizedBox(
       height: 130,
       child: Stack(
         children: [
           /// ═══ الخلفيات المتعددة - طبقات بصرية متقدمة ═══
-          
+
           /// الخلفية الأساسية
           const Positioned.fill(
             child: RoomHeaderBackground(),
@@ -115,10 +114,10 @@ class RoomHeader extends StatelessWidget {
                 children: [
                   /// ═══ صورة الغرفة مع الرموز ═══
                   RoomAvatar(
-                    imageUrl: currentRoom.roomCover,
-                    level: currentRoom.roomLevel,
-                    isOfficial: currentRoom.isOfficial,
-                    isVerified: currentRoom.verified,
+                    imageUrl: room.roomCover,
+                    level: room.roomLevel,
+                    isOfficial: room.isOfficial,
+                    isVerified: room.verified,
                   ),
 
                   const SizedBox(width: 12),
@@ -130,9 +129,9 @@ class RoomHeader extends StatelessWidget {
                       children: [
                         /// اسم الغرفة مع الرموز
                         RoomTitle(
-                          title: currentRoom.roomName,
-                          isOfficial: currentRoom.isOfficial,
-                          isLocked: currentRoom.password != null,
+                          title: room.roomName,
+                          isOfficial: room.isOfficial,
+                          isLocked: room.password != null,
                           isLive: true,
                         ),
 
@@ -140,55 +139,54 @@ class RoomHeader extends StatelessWidget {
 
                         /// رقم الغرفة والمستوى والدولة واللغة
                         RoomRoomId(
-                          roomId: currentRoom.roomNumber.toString(),
-                          level: currentRoom.roomLevel,
-                          country: currentRoom.country,
-                          language: currentRoom.language,
+                          roomId: room.roomNumber.toString(),
+                          level: room.roomLevel,
+                          country: room.country,
+                          language: room.language,
                         ),
 
                         const SizedBox(height: 6),
 
                         /// اسم الدولة والعلم
-                        RoomCountry(
-                          countryName: currentRoom.country,
-                          flag: '🌍', // يمكن إضافة العلم من البيانات
-                        ),
-
-                        const SizedBox(height: 6),
-
-                        /// الوسوم (Tags)
-                        if (currentRoom.tags.isNotEmpty)
-                          RoomTags(
-                            tags: currentRoom.tags,
+                        if (room.country != null && room.country!.isNotEmpty)
+                          RoomCountry(
+                            countryName: room.country!,
+                            flag: '🌍',
                           ),
 
                         const SizedBox(height: 6),
 
-                        /// درجة الحرارة والأعضاء النشطين والألماس والهدايا
+                        /// الوسوم (Tags)
+                        if (room.tags.isNotEmpty)
+                          RoomTags(
+                            tags: room.tags,
+                          ),
+
+                        const SizedBox(height: 6),
+
+                        /// درجة الحرارة والأعضاء النشطين والهدايا
                         RoomHeat(
-                          heat: currentRoom.heat,
-                          online: currentRoom.activeUsers,
-                          diamonds: 0, // سيتم استبداله ببيانات فعلية
-                          gifts: currentRoom.totalGifts,
+                          heat: room.heat,
+                          online: room.activeUsers,
+                          gifts: room.totalGifts,
                         ),
 
                         const SizedBox(height: 6),
 
                         /// شريط التقدم لمستوى الغرفة
                         RoomProgress(
-                          currentXp: 0, // سيتم استبداله ببيانات فعلية
-                          nextLevelXp: 100, // سيتم استبداله ببيانات فعلية
-                          level: currentRoom.roomLevel,
+                          level: room.roomLevel,
+                          heat: room.heat,
                         ),
 
                         const SizedBox(height: 6),
 
-                        /// الإحصائيات (الإعجابات والمتابعين والزيارات)
+                        /// الإحصائيات (الحرارة، الأعضاء، الزيارات، الهدايا)
                         RoomStatistics(
-                          likes: 0, // سيتم استبداله ببيانات فعلية
-                          followers: 0, // سيتم استبداله ببيانات فعلية
-                          visits: currentRoom.totalVisitors,
-                          duration: '0:00', // سيتم استبداله ببيانات فعلية
+                          heat: room.heat,
+                          online: room.activeUsers,
+                          visitors: room.totalVisitors,
+                          gifts: room.totalGifts,
                         ),
 
                         const Spacer(),
@@ -196,7 +194,7 @@ class RoomHeader extends StatelessWidget {
                         /// صور الأعضاء النشطين
                         RoomMembers(
                           members: members,
-                          totalMembers: currentRoom.activeUsers,
+                          totalMembers: room.activeUsers,
                         ),
                       ],
                     ),
