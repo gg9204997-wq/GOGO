@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppNetworkImage extends StatelessWidget {
   const AppNetworkImage({
-    super.key,
-    required this.imageUrl,
+    required this.imageUrl, super.key,
     this.width,
     this.height,
     this.fit = BoxFit.cover,
@@ -38,7 +37,7 @@ class AppNetworkImage extends StatelessWidget {
             ),
           );
         },
-        errorBuilder: (_, __, ___) {
+        errorBuilder: (_, _, _) {
           return Container(
             width: width,
             height: height,

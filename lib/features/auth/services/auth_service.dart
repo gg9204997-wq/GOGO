@@ -1,52 +1,132 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthService {
-  AuthService._();
+  const AuthService();
 
-  static final SupabaseClient client = Supabase.instance.client;
+  SupabaseClient get _client => Supabase.instance.client;
 
-  static GoTrueClient get auth => client.auth;
+  User? get currentUser => _client.auth.currentUser;
 
-  static User? get currentUser => auth.currentUser;
+  bool get isLoggedIn => currentUser != null;
 
-  static bool get isLoggedIn => currentUser != null;
+  Stream<AuthState> get authState => _client.auth.onAuthStateChange;
 
-  static Stream<AuthState> get authStateChanges =>
-      auth.onAuthStateChange;
+  //------------------------------------
+  // Login
+  //------------------------------------
 
-  static Future<AuthResponse> signIn({
+  Future<AuthResponse> signIn({
     required String email,
     required String password,
-  }) {
-    return auth.signInWithPassword(
+  }) async {
+    return await _client.auth.signInWithPassword(
       email: email,
       password: password,
     );
   }
 
-  static Future<AuthResponse> signUp({
+  //------------------------------------
+  // Register
+  //------------------------------------
+
+  Future<AuthResponse> signUp({
     required String email,
     required String password,
     Map<String, dynamic>? data,
-  }) {
-    return auth.signUp(
+  }) async {
+    return await _client.auth.signUp(
       email: email,
       password: password,
       data: data,
     );
   }
 
-  static Future<void> signOut() {
-    return auth.signOut();
+  //------------------------------------
+  // Logout
+  //------------------------------------
+
+  Future<void> signOut() async {
+    await _client.auth.signOut();
   }
 
-  static Future<void> resetPassword({
+  //------------------------------------
+  // Reset Password
+  //------------------------------------
+
+  Future<void> resetPassword(String email) async {
+    await _client.auth.resetPasswordForEmail(email);
+  }
+
+  //------------------------------------
+  // Update Password
+  //------------------------------------
+
+  Future<UserResponse> updatePassword(
+    String password,
+  ) async {
+    return await _client.auth.updateUser(
+      UserAttributes(password: password),
+    );
+  }
+
+  //------------------------------------
+  // Update Email
+  //------------------------------------
+
+  Future<UserResponse> updateEmail(
+    String email,
+  ) async {
+    return await _client.auth.updateUser(
+      UserAttributes(email: email),
+    );
+  }
+
+  //------------------------------------
+  // Verify OTP
+  //------------------------------------
+
+  Future<AuthResponse> verifyOtp({
     required String email,
-  }) {
-    return auth.resetPasswordForEmail(email);
+    required String token,
+    OtpType type = OtpType.email,
+  }) async {
+    return await _client.auth.verifyOTP(
+      email: email,
+      token: token,
+      type: type,
+    );
   }
 
-  static Future<AuthResponse> refreshSession() {
-    return auth.refreshSession();
+  //------------------------------------
+  // Resend Email
+  //------------------------------------
+
+  Future<void> resendConfirmationEmail(
+    String email,
+  ) async {
+    await _client.auth.resend(
+      type: OtpType.signup,
+      email: email,
+    );
+  }
+
+  //------------------------------------
+  // Google
+  //------------------------------------
+
+  Future<bool> signInWithGoogle() async {
+    return await _client.auth.signInWithOAuth(
+      OAuthProvider.google,
+    );
+  }
+
+  //------------------------------------
+  // Facebook
+  //------------------------------------
+
+  Future<bool> signInWithFacebook() async {
+    return await _client.auth.signInWithOAuth(
+      OAuthProvider.facebook,
+    );
   }
 }

@@ -1,37 +1,39 @@
-import 'package:flutter/material.dart';
+// Path: lib/core/widgets/app_card.dart
 
-import 'package:joojo_chat/core/constants/app_colors.dart';
+import 'package:flutter/material.dart';
+// 💡 تم تحويل الـ Imports النسبية إلى Package Imports كاملة لحل تنبيهات الأسطر 3 و 4 و 5
+import 'package:joojo_chat/core/theme/app_colors.dart';
+import 'package:joojo_chat/core/theme/app_radius.dart';
+import 'package:joojo_chat/core/theme/app_shadows.dart';
 
 class AppCard extends StatelessWidget {
   final Widget child;
-
-  final EdgeInsets padding;
-  final EdgeInsets margin;
-
+  final EdgeInsetsGeometry? padding;
   final VoidCallback? onTap;
 
+  // 💡 تم تقديم المعامل الإجباري required child في البداية تماماً قبل الـ super.key لحل تنبيه السطر 16
   const AppCard({
     required this.child,
     super.key,
-    this.padding = const EdgeInsets.all(16),
-    this.margin = EdgeInsets.zero,
+    this.padding,
     this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: margin,
-      child: Material(
-        color: AppColors.card,
-        borderRadius: BorderRadius.circular(18),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(18),
-          onTap: onTap,
-          child: Padding(
-            padding: padding,
-            child: child,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(AppRadius.lg),
+        onTap: onTap,
+        child: Container(
+          padding: padding ?? const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: AppColors.card,
+            borderRadius: BorderRadius.circular(AppRadius.lg),
+            boxShadow: AppShadows.card,
           ),
+          child: child,
         ),
       ),
     );

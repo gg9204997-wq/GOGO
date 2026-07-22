@@ -1,43 +1,35 @@
 import 'package:flutter/material.dart';
 
-import 'package:joojo_chat/core/constants/app_colors.dart';
+import 'package:joojo_chat/core/theme/app_colors.dart';
 
-class AppTextStyles {
-  const AppTextStyles._();
+abstract final class AppTextStyles {
+  AppTextStyles._();
 
-  static const TextStyle displayLarge = TextStyle(
-    fontSize: 34,
+  static const title = TextStyle(
+    fontSize: 28,
     fontWeight: FontWeight.bold,
-    color: AppColors.textPrimary,
+    color: AppColors.white,
   );
 
-  static const TextStyle headline = TextStyle(
-    fontSize: 24,
+  static const heading = TextStyle(
+    fontSize: 22,
     fontWeight: FontWeight.w700,
-    color: AppColors.textPrimary,
+    color: AppColors.white,
   );
 
-  static const TextStyle title = TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.w600,
-    color: AppColors.textPrimary,
-  );
-
-  static const TextStyle body = TextStyle(
+  static const body = TextStyle(
     fontSize: 16,
-    fontWeight: FontWeight.w400,
-    color: AppColors.textPrimary,
+    color: AppColors.white,
   );
 
-  static const TextStyle bodySmall = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    color: AppColors.textSecondary,
+  static const caption = TextStyle(
+    fontSize: 13,
+    color: AppColors.grey,
   );
 
-  static const TextStyle caption = TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    color: AppColors.textHint,
+  static const button = TextStyle(
+    fontSize: 17,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
   );
 }

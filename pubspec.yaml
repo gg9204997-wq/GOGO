@@ -18,6 +18,7 @@ dependencies:
   # State Management
   # ===========================
   flutter_riverpod: ^2.6.1
+  provider: ^6.1.5+1
 
   # ===========================
   # Navigation
@@ -34,6 +35,8 @@ dependencies:
   # ===========================
   dio: ^5.9.0
   connectivity_plus: ^7.0.0
+  internet_connection_checker_plus: ^2.7.2
+  socket_io_client: ^2.0.3
 
   # ===========================
   # Voice Chat
@@ -42,29 +45,37 @@ dependencies:
   permission_handler: ^12.0.1
 
   # ===========================
-  # Storage
+  # Local Storage
   # ===========================
   shared_preferences: ^2.5.3
   flutter_secure_storage: ^9.2.4
 
   # ===========================
-  # Media
+  # Images
   # ===========================
   cached_network_image: ^3.4.1
   flutter_cache_manager: ^3.4.1
   image_picker: ^1.2.0
   flutter_svg: ^2.2.0
+  path: ^1.9.1
 
   # ===========================
   # UI
   # ===========================
+  country_picker: ^2.0.27
   google_fonts: ^6.3.1
   carousel_slider: ^5.1.1
   smooth_page_indicator: ^1.2.1
   shimmer: ^3.0.0
   flutter_animate: ^4.5.2
   lottie: ^3.3.2
+  rive: ^0.13.20
   iconsax_flutter: ^1.0.1
+
+  # ===========================
+  # Audio
+  # ===========================
+  audioplayers: ^6.5.1
 
   # ===========================
   # Utils
@@ -75,20 +86,17 @@ dependencies:
   collection: ^1.19.1
   logger: ^2.6.1
 
-  path: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^6.0.0
-
   build_runner: ^2.5.4
 
   flutter_launcher_icons: ^0.14.4
   flutter_native_splash: ^2.4.6
 
 flutter:
-
   uses-material-design: true
 
   assets:
@@ -96,6 +104,8 @@ flutter:
     - assets/icons/
     - assets/svg/
     - assets/lottie/
+    - assets/effects/
+    - assets/particles/
     - assets/animations/
     - assets/audio/
     - assets/fonts/

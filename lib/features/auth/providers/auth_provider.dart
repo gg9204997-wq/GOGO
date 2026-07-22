@@ -1,88 +1,206 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../repository/auth_repository.dart';
+import 'package:joojo_chat/features/auth/models/profile_model.dart';
+import 'package:joojo_chat/features/auth/repository/auth_repository.dart';
 
-final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  return AuthRepository();
-});
+/// Repository
+final authRepositoryProvider = Provider<AuthRepository>(
+  (ref) => const AuthRepository(),
+);
 
-final authProvider =
-    StateNotifierProvider<AuthNotifier, AsyncValue<User?>>((ref) {
-  return AuthNotifier(
-    ref.read(authRepositoryProvider),
-  );
-});
+/// Current User
+final currentUserProvider =
+    StateNotifierProvider<AuthNotifier, AsyncValue<UserProfileModel?>>(
+  (ref) {
+    return AuthNotifier(
+      ref.read(authRepositoryProvider),
+    );
+  },
+);
 
-class AuthNotifier extends StateNotifier<AsyncValue<User?>> {
+class AuthNotifier extends StateNotifier<AsyncValue<UserProfileModel?>> {
+  AuthNotifier(this._repository)
+      : super(const AsyncData(null));
+
   final AuthRepository _repository;
 
-  AuthNotifier(this._repository)
-      : super(AsyncData(_repository.currentUser));
+  //------------------------------------------------
+  // Login
+  //------------------------------------------------
 
-  User? get currentUser => _repository.currentUser;
-
-  bool get isLoggedIn => _repository.isLoggedIn;
-
-  Future<bool> login({
+  Future<void> signIn({
     required String email,
     required String password,
   }) async {
-    try {
-      state = const AsyncLoading();
+    state = const AsyncLoading();
 
-      final response = await _repository.login(
+    try {
+      final user = await _repository.signIn(
         email: email,
         password: password,
       );
 
-      state = AsyncData(response.user);
-
-      return true;
-    } catch (e, st) {
-      state = AsyncError(e, st);
-      return false;
+      state = AsyncData(user);
+    } catch (e, s) {
+      state = AsyncError(e, s);
     }
   }
 
-  Future<bool> register({
+  //------------------------------------------------
+  // Register
+  //------------------------------------------------
+
+  Future<void> signUp({
+    required String name,
+    required String username,
     required String email,
     required String password,
-    required Map<String, dynamic> data,
+    String? phone,
   }) async {
-    try {
-      state = const AsyncLoading();
+    state = const AsyncLoading();
 
-      final response = await _repository.register(
+    try {
+      final user = await _repository.signUp(
+        name: name,
+        username: username,
         email: email,
         password: password,
-        data: data,
+        phone: phone,
       );
 
-      state = AsyncData(response.user);
-
-      return true;
-    } catch (e, st) {
-      state = AsyncError(e, st);
-      return false;
+      state = AsyncData(user);
+    } catch (e, s) {
+      state = AsyncError(e, s);
     }
   }
 
-  Future<void> logout() async {
+  //------------------------------------------------
+  // Google
+  //------------------------------------------------
+
+  Future<void> signInWithGoogle() async {
+    state = const AsyncLoading();
+
     try {
-      await _repository.logout();
+      await _repository.signInWithGoogle();
+      await loadCurrentUser();
+    } catch (e, s) {
+      state = AsyncError(e, s);
+    }
+  }
+
+  //------------------------------------------------
+  // Facebook
+  //------------------------------------------------
+
+  Future<void> signInWithFacebook() async {
+    state = const AsyncLoading();
+
+    try {
+      await _repository.signInWithFacebook();
+      await loadCurrentUser();
+    } catch (e, s) {
+      state = AsyncError(e, s);
+    }
+  }
+
+  //------------------------------------------------
+  // Current User
+  //------------------------------------------------
+
+  Future<void> loadCurrentUser() async {
+    try {
+      final user = await _repository.getCurrentProfile();
+      state = AsyncData(user);
+    } catch (_) {
       state = const AsyncData(null);
-    } catch (e, st) {
-      state = AsyncError(e, st);
     }
   }
 
-  Future<void> refreshSession() async {
-    try {
-      final response = await _repository.refreshSession();
-      state = AsyncData(response.user);
-    } catch (e, st) {
-      state = AsyncError(e, st);
-    }
+  //------------------------------------------------
+  // Logout
+  //------------------------------------------------
+
+  Future<void> signOut() async {
+    await _repository.signOut();
+    state = const AsyncData(null);
+  }
+
+  //------------------------------------------------
+  // Update Profile
+  //------------------------------------------------
+
+  Future<void> updateProfile(
+    Map<String, dynamic> data,
+  ) async {
+    await _repository.updateProfile(
+      data: data,
+    );
+
+    await loadCurrentUser();
+  }
+
+  //------------------------------------------------
+  // Avatar
+  //------------------------------------------------
+
+  Future<void> updateAvatar(
+    String avatar,
+  ) async {
+    await _repository.updateAvatar(
+      avatar,
+    );
+
+    await loadCurrentUser();
+  }
+
+  //------------------------------------------------
+  // Cover
+  //------------------------------------------------
+
+  Future<void> updateCover(
+    String cover,
+  ) async {
+    await _repository.updateCover(
+      cover,
+    );
+
+    await loadCurrentUser();
+  }
+
+  //------------------------------------------------
+  // Phone
+  //------------------------------------------------
+
+  Future<void> updatePhone(
+    String phone,
+  ) async {
+    await _repository.updatePhone(
+      phone,
+    );
+
+    await loadCurrentUser();
+  }
+
+  //------------------------------------------------
+  // Password
+  //------------------------------------------------
+
+  Future<void> resetPassword(
+    String email,
+  ) async {
+    await _repository.resetPassword(email);
+  }
+
+  Future<void> updatePassword(
+    String password,
+  ) async {
+    await _repository.updatePassword(password);
+  }
+
+  Future<void> updateEmail(
+    String email,
+  ) async {
+    await _repository.updateEmail(email);
   }
 }

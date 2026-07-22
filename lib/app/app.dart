@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
+// 🌟 تم إضافة استدعاء ملف الـ AppRouter ليتعرف عليه الكومبايلر فوراً
+import 'package:joojo_chat/core/router/app_router.dart';
 
-import 'package:joojo_chat/app/app_config.dart';
-import 'package:joojo_chat/core/router/router.dart';
-import 'package:joojo_chat/core/theme/app_theme.dart';
-
-class JoojoApp extends StatelessWidget {
-  const JoojoApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-
-      title: AppConfig.appName,
-
-      theme: AppTheme.dark,
-
-      routerConfig: AppRouter.router,
+      title: 'JooJo Chat',
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: const Color(0xff090514),
+        fontFamily: 'Cairo', // الالتزام التام بخط القاهرة المعتمد بمنصتك الملكية
+      ),
+      // 🌟 تم تصحيح الاسم هنا برمجياً إلى appRouter (بأحرف صغيرة) ليتطابق مع الـ GoRouter المطور بالملي
+      routerConfig: appRouter, 
     );
   }
 }
